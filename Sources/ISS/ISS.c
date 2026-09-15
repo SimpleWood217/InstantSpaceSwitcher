@@ -112,11 +112,8 @@ static bool iss_switch_with_info(const ISSSpaceInfo *info, ISSDirection directio
 static bool iss_should_block_switch(const ISSSpaceInfo *info, ISSDirection direction);
 
 static ISSDirection iss_direction_from_gesture_value(double value) {
-    // The horizontal Dock swipe sign changed again in macOS 27. Keep the
-    // physical-gesture interpretation aligned with the synthetic event path.
-    if (iss_requires_event_augmentation()) {
-        return value < 0.0 ? ISSDirectionRight : ISSDirectionLeft;
-    }
+    // Physical trackpad input keeps the legacy sign convention on macOS 27.
+    // Only the synthetic output event below needs its sign inverted.
     return value > 0.0 ? ISSDirectionRight : ISSDirectionLeft;
 }
 
